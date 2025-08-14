@@ -1,2 +1,3 @@
- streamlit # currently pinned to this version
+ streamlit == 1.48.0 # currently pinned to this version
  groq
+ 
