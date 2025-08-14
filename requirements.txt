@@ -1,0 +1,2 @@
+ streamlit # currently pinned to this version
+ groq
