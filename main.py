@@ -30,7 +30,7 @@ def get_groq_response(question):
 st.title("Sachin Tendulkar Chatbot")
 
 # Display an image placeholder
-st.image(r"C:\Users\Pavan\Desktop\Data Science Material\sachin_tendulkar.jpg", width=700, caption="Sachin Tendulkar")
+st.image("sachin_tendulkar.jpg", width=700, caption="Sachin Tendulkar")
 
 # Adjust CSS for padding and text wrapping
 st.markdown("""
