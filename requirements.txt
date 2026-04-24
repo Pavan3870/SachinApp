@@ -1,10 +1,10 @@
  streamlit == 1.48.0 # currently pinned to this version
  groq
  python-dotenv
-My PDF translation logic is now working well, but it is currently outputting a ZIP file of individual translated pages instead of a single PDF. Additionally, my DOCX translation is losing layout fidelity.
-​Please modify my code to align the DOCX output with the PDF success:
-​DOCX Structural Parity: Update translate_docx_layout to use the same 'coordinate-aware' logic as the PDF. Instead of extracting raw text, iterate through doc.tables and doc.paragraphs specifically. Replace text within the existing XML run objects to preserve all table borders, cell shading, and font styles.
-​Merge PDF Output: Instead of saving processed pages into a ZIP, update the PDF handler to use fitz.open() for a new document and insert_pdf() or doc.save() to merge all translated pages into a single, multi-page PDF file.
-​Consistent Image Handling: For any images embedded in the DOCX, use the exact same vision-based OCR and redaction pipeline used for the PDF 'imaged portions.' Re-insert the translated image into the original DOCX anchor point.
-​Unicode Stabilization: Ensure both handlers use UTF-8 encoding and a Unicode-compliant font (like NotoSans) to handle the Portuguese and Spanish characters for story PBWO-52112.
-​Please provide the updated document_translator.py that ensures both formats return a single, properly formatted document."
+MyMy PDF translation is perfect, but my DOCX translation is losing its layout. I want the DOCX handler to follow the same logic as the PDF handler.
+​Please refactor the doc_translation_worker.py or DOCX logic to:
+​Preserve Structure: Instead of extracting all text into a single string, iterate through every Table, Row, and Cell object individually.
+​Targeted Replacement: Only translate the .text property of specific Paragraph and Run objects. This ensures that table borders, cell widths, and background colors are anchored and remain unchanged, just like my PDF coordinate logic.
+​Image Parity: If the DOCX contains an image, pass that image blob through the exact same Gemini OCR pipeline used for the PDF 'imaged narrative.' Re-insert the translated result into the same InlineShape anchor.
+​Font Consistency: Apply the same Unicode font settings used in the PDF to the DOCX style objects to ensure Portuguese and Spanish characters don't break the document formatting.
+​Provide a version of the DOCX translation function that maintains 1:1 layout fidelity by replacing content 'in-place' within the document's XML structure
