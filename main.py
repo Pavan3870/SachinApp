@@ -2,6 +2,7 @@ import os
 import streamlit as st
 from groq import Groq
 
+print("pavan")
 # Initialize the Groq client
 os.getenv("GROQ_API_KEY")
 client = Groq(api_key=GROQ_API_KEY)
