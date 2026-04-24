@@ -1,12 +1,10 @@
  streamlit == 1.48.0 # currently pinned to this version
  groq
  python-dotenv
-​The Optimized Prompt
-​"I am providing an input PDF ('Hola Rosariov2.pdf') and the current output. The issue is that the 'imaged portions' (text that is part of an image layer) are not being translated.
-​Please modify my text_document_translator.py to implement the following fix:
-​Hybrid Extraction: For every page, first check for native text. If a section of the page is an image or contains no selectable text, trigger a fallback OCR scan specifically for that region using Gemini’s vision capabilities.
-​In-Place Image Translation: For these imaged portions, do not just extract the text. Use page.get_pixmap() to sample the background color and apply a redaction box (add_redact_annot) that matches that background, then overlay the translated English text.
-​Table Anchor: Ensure the tabular formats remain structurally identical. Do not re-draw tables; only swap the text values inside them using coordinate-matching.
-​Layer Management: Use images=fitz.PDF_REDACT_IMAGE_NONE when applying redactions so the original document's lines and borders are not deleted.
-​Multi-Page Serialization: Ensure the rebuilt_doc properly appends every processed page and saves with garbage=4 to fix the current file corruption/opening issue.
-​Please provide the full updated translate_document_layout function with these specific logic gates."
+My PDF translation logic is now working well, but it is currently outputting a ZIP file of individual translated pages instead of a single PDF. Additionally, my DOCX translation is losing layout fidelity.
+​Please modify my code to align the DOCX output with the PDF success:
+​DOCX Structural Parity: Update translate_docx_layout to use the same 'coordinate-aware' logic as the PDF. Instead of extracting raw text, iterate through doc.tables and doc.paragraphs specifically. Replace text within the existing XML run objects to preserve all table borders, cell shading, and font styles.
+​Merge PDF Output: Instead of saving processed pages into a ZIP, update the PDF handler to use fitz.open() for a new document and insert_pdf() or doc.save() to merge all translated pages into a single, multi-page PDF file.
+​Consistent Image Handling: For any images embedded in the DOCX, use the exact same vision-based OCR and redaction pipeline used for the PDF 'imaged portions.' Re-insert the translated image into the original DOCX anchor point.
+​Unicode Stabilization: Ensure both handlers use UTF-8 encoding and a Unicode-compliant font (like NotoSans) to handle the Portuguese and Spanish characters for story PBWO-52112.
+​Please provide the updated document_translator.py that ensures both formats return a single, properly formatted document."
